@@ -37,6 +37,32 @@ $('.row .btn').on('click', function(e) {
     $collapse.collapse('toggle');
 });
 
+/* copy loaded thumbnails into carousel */
+$('.panel .img-responsive').on('load', function() {
+  
+}).each(function(i) {
+  if(this.complete) {
+  	var item = $('<div class="item"></div>');
+    var itemDiv = $(this).parent('a');
+    var title = $(this).parent('a').attr("title");
+    
+    item.attr("title",title);
+  	$(itemDiv.html()).appendTo(item);
+  	item.appendTo('#modalCarousel .carousel-inner'); 
+    if (i==0){ // set first item active
+     item.addClass('active');
+    }
+  }
+});
+
+/* activate the carousel */
+$('#modalCarousel').carousel({interval:false});
+
+/* change modal title when slide changes */
+$('#modalCarousel').on('slid.bs.carousel', function () {
+  $('.modal-title').html($(this).find('.active').attr("title"));
+})
+
 // Google Maps Scripts
 // When the window has finished loading create our google map below
 google.maps.event.addDomListener(window, 'load', init);
